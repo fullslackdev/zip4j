@@ -10,10 +10,7 @@ import net.lingala.zip4j.util.BitUtils;
 import net.lingala.zip4j.util.UnzipUtil;
 import net.lingala.zip4j.util.Zip4jUtil;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -77,13 +74,16 @@ public abstract class AbstractExtractFileTask<T> extends AsyncZipTask<T> {
 
   private void unzipFile(ZipInputStream inputStream, FileHeader fileHeader, File outputFile,
                          ProgressMonitor progressMonitor) throws IOException {
-    int readLength;
-    try (OutputStream outputStream = new FileOutputStream(outputFile)) {
-      while ((readLength = inputStream.read(buff)) != -1) {
-        outputStream.write(buff, 0, readLength);
-        progressMonitor.updateWorkCompleted(readLength);
-        verifyIfTaskIsCancelled();
-      }
+//    int readLength;
+    try (FileOutputStream fos = new FileOutputStream(outputFile);
+         OutputStream outputStream = new BufferedOutputStream(fos, BUFF_SIZE)) {
+//      while ((readLength = inputStream.read(buff)) != -1) {
+//        outputStream.write(buff, 0, readLength);
+//        progressMonitor.updateWorkCompleted(readLength);
+//        verifyIfTaskIsCancelled();
+//      }
+      long readLength = inputStream.transferTo(outputStream);
+      progressMonitor.updateWorkCompleted(readLength);
     } catch (Exception e) {
       if (outputFile.exists()) {
         outputFile.delete();
@@ -91,7 +91,7 @@ public abstract class AbstractExtractFileTask<T> extends AsyncZipTask<T> {
       throw  e;
     }
 
-    UnzipUtil.applyFileAttributes(fileHeader, outputFile);
+//    UnzipUtil.applyFileAttributes(fileHeader, outputFile);
   }
 
   private void createSymLink(ZipInputStream zipInputStream, FileHeader fileHeader, File outputFile,

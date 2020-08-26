@@ -44,7 +44,7 @@ public class UnzipUtil {
 
     try {
       Path path = file.toPath();
-      setFileAttributes(path, fileHeader.getExternalFileAttributes());
+      //setFileAttributes(path, fileHeader.getExternalFileAttributes());
       setFileLastModifiedTime(path, fileHeader.getLastModifiedTime());
     } catch (NoSuchMethodError e) {
       setFileLastModifiedTimeWithoutNio(file, fileHeader.getLastModifiedTime());

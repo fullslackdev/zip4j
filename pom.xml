@@ -29,8 +29,8 @@
     </licenses>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.9</maven.compiler.source>
+        <maven.compiler.target>1.9</maven.compiler.target>
         <junit.version>4.12</junit.version>
         <lombok.version>1.18.8</lombok.version>
         <assertj.version>3.12.2</assertj.version>
@@ -155,6 +155,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
+                <version>5.1.1</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
