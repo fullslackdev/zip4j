@@ -52,6 +52,7 @@ import static net.lingala.zip4j.util.InternalZipConstants.ENDHDR;
 import static net.lingala.zip4j.util.InternalZipConstants.ZIP_64_NUMBER_OF_ENTRIES_LIMIT;
 import static net.lingala.zip4j.util.InternalZipConstants.ZIP_64_SIZE_LIMIT;
 import static net.lingala.zip4j.util.Zip4jUtil.readFully;
+import static net.lingala.zip4j.util.Zip4jUtil.windowsToEpochTime;
 
 /**
  * Helper class to read header information for the zip file
@@ -223,6 +224,13 @@ public class HeaderReader {
         } else {
           fileHeader.setEncryptionMethod(EncryptionMethod.ZIP_STANDARD);
         }
+      }
+
+      if (fileHeader.getExtraDataRecords().get(0).getSizeOfData() == 32) {
+        byte[] data = fileHeader.getExtraDataRecords().get(0).getData();
+        fileHeader.setMtime(windowsToEpochTime(rawIO.readLongLittleEndian(data, 8)));
+        fileHeader.setAtime(windowsToEpochTime(rawIO.readLongLittleEndian(data, 16)));
+        fileHeader.setCtime(windowsToEpochTime(rawIO.readLongLittleEndian(data, 24)));
       }
 
       fileHeaders.add(fileHeader);

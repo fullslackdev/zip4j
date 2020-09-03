@@ -29,6 +29,7 @@ public class Zip4jUtil {
 
   private static final long DOSTIME_BEFORE_1980 = (1 << 21) | (1 << 16);
   private static final int MAX_RAW_READ_FULLY_RETRY_ATTEMPTS = 15;
+  private static final long WINDOWS_EPOCH_IN_MILLISECONDS = 11644473600000L;
 
   public static boolean isStringNotNullAndNotEmpty(String str) {
     return str != null && str.trim().length() > 0;
@@ -186,6 +187,10 @@ public class Zip4jUtil {
     }
 
     return readLength;
+  }
+
+  public static long windowsToEpochTime(long windowsTime) {
+    return (windowsTime / 10000) - WINDOWS_EPOCH_IN_MILLISECONDS;
   }
 
 }

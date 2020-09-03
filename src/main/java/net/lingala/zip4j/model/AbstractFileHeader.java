@@ -27,6 +27,33 @@ public abstract class AbstractFileHeader extends ZipHeader {
   private boolean fileNameUTF8Encoded;
   private List<ExtraDataRecord> extraDataRecords;
   private boolean isDirectory;
+  private long ctime;
+  private long atime;
+  private long mtime;
+
+  public long getCtime() {
+    return ctime;
+  }
+
+  public void setCtime(long ctime) {
+    this.ctime = ctime;
+  }
+
+  public long getAtime() {
+    return atime;
+  }
+
+  public void setAtime(long atime) {
+    this.atime = atime;
+  }
+
+  public long getMtime() {
+    return mtime;
+  }
+
+  public void setMtime(long mtime) {
+    this.mtime = mtime;
+  }
 
   public int getVersionNeededToExtract() {
     return versionNeededToExtract;
